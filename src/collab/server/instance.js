@@ -1,6 +1,7 @@
 import {readFileSync, writeFile} from "fs"
 
 import {Mapping} from "prosemirror-transform"
+import simpleGit from "simple-git"
 
 import {schema} from "../schema"
 import {Comments, Comment} from "./comments"
@@ -156,6 +157,8 @@ class Instance {
 const instances = Object.create(null)
 let instanceCount = 0
 let maxCount = 20
+let saveRepo = "repo"
+const git = simpleGit(saveRepo)
 
 let saveFile = "data/instances.json", json
 if (process.argv.indexOf("--fresh") == -1) {
@@ -181,14 +184,19 @@ function scheduleSave() {
 function doSave() {
   saveTimeout = null
   let out = {}
-  for (var prop in instances)
+  for (var prop in instances) {
     out[prop] = {
       doc: instances[prop].doc.toJSON(),
       comments: instances[prop].comments.comments,
       users: Array.from(instances[prop].users.values()),
       chat: instances[prop].chat.messages
     }
+    writeFile(saveRepo+'/'+prop, instances[prop].doc.textContent, (err) => { if (err) throw err; })
+  }
   writeFile(saveFile, JSON.stringify(out), (err) => { if (err) throw err; })
+  try {
+      const commitResult = git.add('./*').commit('this is a commit', { '--author': '"Ratten Spiegel <rattenspiegel@example.com>"' })
+  } catch (e) { throw err }
 }
 
 export function getInstance(id, clientId) {

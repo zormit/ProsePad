@@ -3,7 +3,7 @@ import crel from "crel"
 import {commentsProsePadPlugin} from "./comment"
 import {ProsePad} from "./prosepad"
 import {Reporter} from "./reporter"
-import {GET} from "./http"
+import {GET, DELETE} from "./http"
 import {getUsersProsePadPlugin, userString} from "./users"
 
 const report = new Reporter()
@@ -20,8 +20,16 @@ function showDocList(node, list) {
 
   let ul = docList = document.body.appendChild(crel("ul", {class: "doclist"}))
   list.forEach(doc => {
-    ul.appendChild(crel("li", {"data-name": doc.id},
-                        doc.id + " (" + userString(doc.users) + ")"))
+    let li = crel("li", {"data-name": doc.id},
+                        doc.id + " (" + userString(doc.users) + ") ")
+    let deleteButton = crel("span", "x")
+    deleteButton.addEventListener("click", e => {
+        let liNode = e.target.parentNode
+        let name = liNode.getAttribute("data-name")
+        DELETE(baseUrl + name).then(data => liNode.parentNode.removeChild(liNode), err => report.failure(err))
+    })
+    li.appendChild(deleteButton)
+    ul.appendChild(li)
   })
   ul.appendChild(crel("li", {"data-new": "true", style: "border-top: 1px solid silver; margin-top: 2px"},
                       "Create a new document"))

@@ -206,6 +206,11 @@ export function getInstance(id, clientId) {
   return inst
 }
 
+export function deleteInstance(id) {
+  delete instances[id]
+  scheduleSave()
+}
+
 function newInstance(id, doc, comments, users, chat) {
   if (++instanceCount > maxCount) {
     let oldest = null

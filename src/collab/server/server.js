@@ -6,7 +6,7 @@ import {Step} from "prosemirror-transform"
 import mold from "../../mold"
 import {Router} from "./route"
 import {schema} from "../schema"
-import {getInstance, instanceInfo} from "./instance"
+import {getInstance, deleteInstance, instanceInfo} from "./instance"
 
 // Object that represents an HTTP response.
 class Output {
@@ -197,6 +197,12 @@ export default class ProsePadServer {
           return new Output(406, "Not Acceptable")
         }
       }))
+    })
+
+    handle("DELETE", [null], (id, req, res) => {
+      id = validInstanceId(id)
+      deleteInstance(id)
+      return new Output(204, "No Content")
     })
 
     function outputEvents(inst, data) {

@@ -79,7 +79,7 @@ function nonNegInteger(str) {
 
 function validInstanceId(str) {
   str = str.trim()
-  if (str[0] != "_" && str != "favicon.ico" && str != "") return str
+  if (str[0] != "_" && str != "favicon.ico" && str != "" && str.match(/^[\p{L}\p{N}_\-() ]+$/u)) return str
   let err = new Error("Not a valid document id: " + str)
   err.status = 400
   throw err

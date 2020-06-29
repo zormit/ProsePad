@@ -1,4 +1,3 @@
-import buble from "rollup-plugin-buble"
 import nodeResolve from "rollup-plugin-node-resolve"
 import commonJS from "rollup-plugin-commonjs"
 
@@ -8,10 +7,6 @@ const commonJsPlugin = commonJS({
 })
 
 const browserPlugins = [
-  buble({
-    exclude: "node_modules/**",
-    namedFunctionExpressions: false
-  }),
   nodeResolve({
     main: true,
     browser: true
@@ -20,11 +15,6 @@ const browserPlugins = [
 ]
 
 const nodePlugins = [
-  buble({
-    exclude: "node_modules/**",
-    target: { node: 4 },
-    transforms: { arrow: true } // Work around https://gitlab.com/Rich-Harris/buble/issues/187
-  }),
   nodeResolve({
     main: true
   }),

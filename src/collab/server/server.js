@@ -189,10 +189,7 @@ export default class ProsePadServer {
         case "application/json":
           return Output.json(getViewData(inst, clientId))
         case "text/html":
-          return new Output(200, mold.dispatch("editor", {
-            content: JSON.stringify(getViewData(inst, clientId)),
-            docName: id
-          }), "text/html")
+          return getOutputForFile("index.html")
         default:
           return new Output(406, "Not Acceptable")
         }

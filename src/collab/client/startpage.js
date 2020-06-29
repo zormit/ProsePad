@@ -70,4 +70,5 @@ const plugins = [
 
 document.querySelector("#docname").textContent = "Example"
 const prosepad = window.prosepad = new ProsePad(report, plugins, document.getElementById("editor"))
-prosepad.start(baseUrl + "Example").then(() => prosepad.view.focus())
+const filename = location.pathname.slice(1) || "Example"
+prosepad.start(baseUrl + filename).then(() => prosepad.view.focus())

@@ -27,4 +27,4 @@ public/css/editor.css: $(ROOT)prosemirror-view/style/prosemirror.css \
 	cat $^ > $@
 
 clean:
-	rm public/*.html public/js/fullpage.js public/js/startpage.js public/css/editor.css
+	rm public/*.html public/js/fullpage.js public/js/startpage.js public/css/editor.css lib/build.js lib/server.js

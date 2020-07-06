@@ -1,24 +1,27 @@
-import nodeResolve from "rollup-plugin-node-resolve"
-import commonJS from "rollup-plugin-commonjs"
+import resolve from "@rollup/plugin-node-resolve"
+import commonjs from "@rollup/plugin-commonjs"
+import json from "@rollup/plugin-json"
 
-const commonJsPlugin = commonJS({
+const commonJsPlugin = commonjs({
   include: 'node_modules/**',
   sourceMap: false
 })
 
 const browserPlugins = [
-  nodeResolve({
+  resolve({
     main: true,
     browser: true
   }),
-  commonJsPlugin
+  commonJsPlugin,
+  json()
 ]
 
 const nodePlugins = [
-  nodeResolve({
+  resolve({
     main: true
   }),
-  commonJsPlugin
+  commonJsPlugin,
+  json()
 ]
 
 export default [
